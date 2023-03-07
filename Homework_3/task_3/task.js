@@ -33,9 +33,10 @@ class Product {
             let product = ev.target.closest('.product')
             let productId = product.dataset['id']
             let productImg = product.querySelector('img').src
+            console.log(productId)
             
             let elCartProduct = document.createElement('div')
-            elCartProduct.classList.add('cart__product', `animation`)
+            elCartProduct.classList.add('cart__product', `animation${productId}`)
             elCartProduct.dataset.id = productId
             
             let elProductImg = document.createElement('img')
@@ -62,12 +63,12 @@ class Product {
             
             let css = document.createElement('style')
             css.appendChild(document.createTextNode(`
-            .animation {
+            .animation${productId} {
                 position: relative;
-                animation: 2s animate ease;
+                animation: 2s animate${productId} ease;
             }
             
-            @keyframes animate {
+            @keyframes animate${productId} {
                 from {
                     top: ${200 + y - (Product.productsList.length > 0 ? 246 : 85)}px;
                     right: ${900 + (50 * Product.productsList.length)}px;
