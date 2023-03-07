@@ -97,6 +97,17 @@ body {
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
+  animation: 4s show ease;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 100;
+  }
 }
 
 .product-shadow {

@@ -1,9 +1,10 @@
 class Product {
     static productsList = []
 
-    constructor(container, cart) {
+    constructor(container, cart, head) {
         this.container = container
         this.cart = cart
+        this.head = head
 
         this.decBtn = this.container.querySelector('.product__quantity-control_dec')
         this.incBtn = this.container.querySelector('.product__quantity-control_inc')
@@ -20,22 +21,21 @@ class Product {
             if (el.className.includes('inc')) {
                 this.productValue.textContent++
             } else {
-                if  (this.productValue.textContent > 1) {
+                if (this.productValue.textContent > 1) {
                     this.productValue.textContent--
                 }
             }
-        })  
+        })
     }
 
     productAdd(el) {
         el.addEventListener('click', (ev) => {
-            
             let product = ev.target.closest('.product')
             let productId = product.dataset['id']
             let productImg = product.querySelector('img').src
-
+            
             let elCartProduct = document.createElement('div')
-            elCartProduct.classList.add('cart__product')
+            elCartProduct.classList.add('cart__product', `animation`)
             elCartProduct.dataset.id = productId
             
             let elProductImg = document.createElement('img')
@@ -45,7 +45,7 @@ class Product {
             let elCartProductCount = document.createElement('div')
             elCartProductCount.classList.add('cart__product-count')
             elCartProductCount.textContent = this.productValue.textContent
-
+            
             let elCartDelBtn = document.createElement('button')
             elCartDelBtn.classList.add('product__remove')
             elCartDelBtn.textContent = 'Удалить'
@@ -57,6 +57,29 @@ class Product {
             elCartProduct.appendChild(elProductImg)
             elCartProduct.appendChild(elCartProductCount)
             elCartProduct.appendChild(elCartDelBtn)
+            
+            let { y } = product.getBoundingClientRect()
+            
+            let css = document.createElement('style')
+            css.appendChild(document.createTextNode(`
+            .animation {
+                position: relative;
+                animation: 2s animate ease;
+            }
+            
+            @keyframes animate {
+                from {
+                    top: ${200 + y - (Product.productsList.length > 0 ? 246 : 85)}px;
+                    right: ${900 + (50 * Product.productsList.length)}px;
+                }
+                
+                to {
+                    top: 0;
+                    right: 0;
+                }
+            }
+            `))
+            this.head.appendChild(css)
 
             if (Product.productsList.some(el => el.dataset['id'] == elCartProduct.dataset['id'])) {
                 let currentElement = Product.productsList[Product.productsList.findIndex(el => el.dataset['id'] == elCartProduct.dataset['id'])]
@@ -73,8 +96,9 @@ class Product {
 document.addEventListener('DOMContentLoaded', () => {
     const cart = document.querySelector('.cart .cart__products')
     const productsList = Array.from(document.querySelector('.products').children)
+    const head = document.querySelector('head')
 
-    productsList.forEach((el) => new Product(el, cart))
+    productsList.forEach((el) => new Product(el, cart, head))
 
-    
+
 }, false)
