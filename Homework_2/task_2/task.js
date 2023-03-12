@@ -16,14 +16,23 @@ class InterestList {
                     })
                 } else {
                     if (!el.querySelector('.interest__check').checked) {
-                        if (Array.from(el.querySelectorAll('.interest')).some((item) => item.querySelector('.interest__check').checked)) {
+                        if ((Array.from(el.querySelectorAll('.interest')).every((item) => item.querySelector('.interest__check').checked))) {
+                            el.querySelector('.interest__check').indeterminate = false
+                            el.querySelector('.interest__check').checked = true
+                        } else if (Array.from(el.querySelectorAll('.interest')).some((item) => item.querySelector('.interest__check').checked)) {
+                            el.querySelector('.interest__check').checked = false
                             el.querySelector('.interest__check').indeterminate = true
                         } else {
                             el.querySelector('.interest__check').indeterminate = false
+                            el.querySelector('.interest__check').checked = false
                         }
                     } else {
                         if (!Array.from(el.querySelectorAll('.interest')).some((item) => item.querySelector('.interest__check').checked)) {
                             el.querySelector('.interest__check').checked = false
+                            el.querySelector('.interest__check').indeterminate = false
+                        } else {
+                            el.querySelector('.interest__check').checked = false
+                            el.querySelector('.interest__check').indeterminate = true
                         }
                     }
                 }

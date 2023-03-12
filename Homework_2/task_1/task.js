@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('keydown', (event) => {
         if (document.activeElement.id == input.id && event.key == 'Enter') {
-            if (input.value) {
+            if (input.value.trim()) {
                 widgetMessages.innerHTML += `
                 <div class="message message_client">
                     <div class="message__time">${new Date().getHours()}:${new Date().getMinutes()}</div>
